@@ -13,3 +13,5 @@
 .service-edit input,.service-edit textarea{width:100%;border:1px solid #dce2e8;border-radius:8px;padding:9px;font:inherit;font-size:12px;margin-bottom:7px;box-sizing:border-box}
 .service-edit textarea{resize:vertical}
 .service-edit>div{display:flex;justify-content:flex-end;gap:7px}
+
+.admin-link{border:0;background:transparent;color:#aeb9c5;font-size:11px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}.admin-link:hover{color:#fff}.admin-body{justify-content:flex-start}.admin-welcome{border:1px solid var(--line);border-radius:14px;padding:18px;background:#f7f8fa}.admin-welcome svg{color:var(--orange)}.admin-welcome h3{margin:8px 0}.admin-welcome p{font-size:12px;color:var(--muted);line-height:1.6}.admin-error{margin:0;background:#fff0f0;color:#a52c2c;border-radius:10px;padding:10px;font-size:11px;line-height:1.5}
