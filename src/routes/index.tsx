@@ -92,7 +92,7 @@ function AdminPanel({isAdmin,onClose,onLogin}:{isAdmin:boolean;onClose:()=>void;
   const signed=await supabase.auth.signInWithPassword({email:cleanEmail,password});
   if(!signed.error&&signed.data.user?.email?.toLowerCase()===ADMIN_EMAIL){setBusy(false);onLogin(true);return}
   const created=await supabase.auth.signUp({email:cleanEmail,password});
-  if(created.error){setError("Não foi possível entrar. Se a conta ainda não existir, verifique se o registo por email está permitido no Supabase.");setBusy(false);return}
+  if(created.error){console.error("Admin auth error:",signed.error,created.error);const msg=created.error.message||"";setError(msg.includes("already registered")||msg.includes("already been registered")?"A conta administrativa já existe, mas a palavra-passe indicada não corresponde. Use a palavra-passe original ou redefina-a no Supabase Authentication > Users.":msg.includes("signups not allowed")||msg.includes("Signups not allowed")?"O registo por email está desativado no Supabase. Ative Authentication > Providers > Email > Allow new users.":"Não foi possível entrar: "+msg);setBusy(false);return}
   if(created.data.session?.user?.email?.toLowerCase()===ADMIN_EMAIL){setBusy(false);onLogin(true);return}
   setError("O acesso foi criado, mas o Supabase está a exigir confirmação do email. Desative a confirmação de email no Supabase ou confirme esta conta uma vez no painel Authentication > Users.");setBusy(false);
  };
