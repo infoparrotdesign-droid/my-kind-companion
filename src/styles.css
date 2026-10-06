@@ -3,3 +3,13 @@
 @media(max-width:1050px){.service-grid{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}.hero-art{width:min(470px,90vw)}.section-head{grid-template-columns:1fr}.intro,.contact{grid-template-columns:1fr;gap:25px}}
 @media(max-width:760px){html{scroll-padding-top:70px}.site-header{height:68px}.mobile-menu{display:grid;place-items:center}.main-nav{display:none;position:absolute;top:68px;left:0;right:0;background:white;border-bottom:1px solid var(--line);padding:16px 22px;box-shadow:0 15px 30px #0001}.main-nav.open{display:flex;flex-direction:column;align-items:stretch;gap:0}.main-nav a,.nav-cart{padding:13px 5px}.hero{padding:58px 22px;min-height:0}.hero h1{font-size:47px}.hero-art{height:300px}.art.back b{font-size:35px}.art.front b{font-size:30px}.intro,.section,.shop,.contact{padding:65px 22px}.service-grid,.portfolio-grid,.products{grid-template-columns:1fr 1fr}.shop-top{display:block}.shop-actions{margin-top:22px;justify-content:flex-start}.toolbar{display:block}.toolbar label{max-width:none}.filters{margin-top:10px;overflow:auto}.site-footer{display:block}.site-footer span{display:block;margin:5px 0}.panel{width:100%}}
 @media(max-width:480px){.service-grid,.portfolio-grid,.products{grid-template-columns:1fr}.hero-buttons .btn{width:100%}.hero-art{height:275px}.form-row{grid-template-columns:1fr}.panel-head,.panel-body,.panel-foot{padding-left:18px;padding-right:18px}.crop-stage{margin:0 15px}.crop-panel>p,.zoom,.crop-foot{padding-left:15px;padding-right:15px}.product-img{height:235px}}
+
+.section-add{display:flex;justify-content:center;margin-top:28px}
+.service-links{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.service-links a{margin-top:0}
+.service-edit-btn{border:0;background:transparent;color:var(--navy);font:inherit;font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px;cursor:pointer;padding:7px;border-radius:7px}
+.service-edit-btn:hover{background:#eef2f5;color:var(--orange)}
+.service-edit{margin-top:10px;padding:10px;border:1px solid #e2e7ec;border-radius:10px;background:#fff}
+.service-edit input,.service-edit textarea{width:100%;border:1px solid #dce2e8;border-radius:8px;padding:9px;font:inherit;font-size:12px;margin-bottom:7px;box-sizing:border-box}
+.service-edit textarea{resize:vertical}
+.service-edit>div{display:flex;justify-content:flex-end;gap:7px}
