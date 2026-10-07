@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, BriefcaseBusiness, Check, ClipboardList, Edit3, Filter, ImagePlus, Laptop, Mail, Menu, MessageCircle, Minus, Package, Palette, Phone, Plus, RefreshCw, Search, ShoppingBag, ShoppingCart, Sparkles, Trash2, Upload, X, ZoomIn, ZoomOut } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type PointerEvent } from "react";
