@@ -70,11 +70,11 @@ alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
 alter table public.service_requests enable row level security;
 
-drop policy if exists "Public can create Parrot customers" on public.customers;
-create policy "Public can create Parrot customers"
+drop policy if exists "Admin can create Parrot customers" on public.customers;
+create policy "Admin can create Parrot customers"
 on public.customers for insert
-to anon, authenticated
-with check (char_length(trim(name)) between 2 and 150 and char_length(trim(phone)) between 5 and 30 and char_length(trim(address)) between 3 and 250);
+to authenticated
+with check ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 drop policy if exists "Admin can read Parrot customers" on public.customers;
 create policy "Admin can read Parrot customers"
@@ -184,5 +184,5 @@ using ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 revoke all privileges on table public.customers, public.orders, public.order_items, public.service_requests from anon;
 revoke all privileges on table public.customers, public.orders, public.order_items, public.service_requests from authenticated;
-grant insert on table public.customers, public.orders, public.order_items, public.service_requests to anon;
+grant insert on table public.orders, public.order_items, public.service_requests to anon;
 grant select, insert, update, delete on table public.customers, public.orders, public.order_items, public.service_requests to authenticated;
