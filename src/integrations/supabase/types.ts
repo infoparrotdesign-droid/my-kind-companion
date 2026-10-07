@@ -91,7 +91,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_public_order: {
+        Args: {
+          p_items?: Json
+          p_order: Json
+          p_service?: Json
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
