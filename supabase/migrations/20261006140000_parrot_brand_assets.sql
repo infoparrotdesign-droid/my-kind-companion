@@ -15,20 +15,20 @@ drop policy if exists "Admin can insert brand assets" on public.brand_assets;
 create policy "Admin can insert brand assets"
 on public.brand_assets for insert
 to authenticated
-with check ((auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
+with check ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 drop policy if exists "Admin can update brand assets" on public.brand_assets;
 create policy "Admin can update brand assets"
 on public.brand_assets for update
 to authenticated
-using ((auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com')
-with check ((auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
+using ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com')
+with check ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 drop policy if exists "Admin can delete brand assets" on public.brand_assets;
 create policy "Admin can delete brand assets"
 on public.brand_assets for delete
 to authenticated
-using ((auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
+using ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 insert into public.brand_assets (type, image_url)
 values ('main',null),('dark',null),('light',null),('icon',null)
