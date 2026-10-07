@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAiGenerateDescriptionRouteImport } from './routes/api/ai/generate-description'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAiGenerateDescriptionRoute =
+  ApiAiGenerateDescriptionRouteImport.update({
+    id: '/api/ai/generate-description',
+    path: '/api/ai/generate-description',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/ai/generate-description': typeof ApiAiGenerateDescriptionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/ai/generate-description': typeof ApiAiGenerateDescriptionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/ai/generate-description': typeof ApiAiGenerateDescriptionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/ai/generate-description'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/ai/generate-description'
+  id: '__root__' | '/' | '/api/ai/generate-description'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiAiGenerateDescriptionRoute: typeof ApiAiGenerateDescriptionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +59,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ai/generate-description': {
+      id: '/api/ai/generate-description'
+      path: '/api/ai/generate-description'
+      fullPath: '/api/ai/generate-description'
+      preLoaderRoute: typeof ApiAiGenerateDescriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiAiGenerateDescriptionRoute: ApiAiGenerateDescriptionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -44,9 +44,9 @@ export const Route = createFileRoute("/api/ai/generate-description")({
           const accessToken = authorization.replace(/^Bearer\s+/i, "").trim();
           if (!accessToken) return json({ error: "Sessão administrativa necessária." }, 401);
 
-          const supabaseUrl = process.env.VITE_SUPABASE_URL || SUPABASE_URL;
+          const supabaseUrl = process.env['VITE_SUPABASE_URL'] || SUPABASE_URL;
           const supabaseKey =
-            process.env.VITE_SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY;
+            process.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || SUPABASE_PUBLISHABLE_KEY;
           const supabase = createClient(supabaseUrl, supabaseKey, {
             auth: { persistSession: false, autoRefreshToken: false },
           });
@@ -66,7 +66,7 @@ export const Route = createFileRoute("/api/ai/generate-description")({
             return json({ error: "Forneça alguns detalhes para a IA trabalhar." }, 400);
           }
 
-          const apiKey = process.env.LOVABLE_API_KEY;
+          const apiKey = process.env['LOVABLE_API_KEY'];
           if (!apiKey) {
             return json(
               {
