@@ -84,11 +84,6 @@ to authenticated
 using ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com')
 with check ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
-drop policy if exists "Admin can create Parrot customers" on public.customers;
-create policy "Admin can create Parrot customers"
-on public.customers for insert
-to authenticated
-with check ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
 drop policy if exists "Admin can delete Parrot customers" on public.customers;
 create policy "Admin can delete Parrot customers"
@@ -176,11 +171,7 @@ on public.service_requests for delete
 to authenticated
 using ((select auth.jwt() ->> 'email') = 'info.parrotdesign@gmail.com');
 
-grant insert on public.customers to anon, authenticated;
-grant select, insert, update, delete on public.customers to authenticated;
-grant insert on public.orders to anon, authenticated;
-grant select, update, delete on public.orders to authenticated;
-grant insert on public.order_items to anon, authenticated;
-grant select, insert, update, delete on public.order_items to authenticated;
-grant insert on public.service_requests to anon, authenticated;
-grant select, insert, update, delete on public.service_requests to authenticated;
+revoke all privileges on table public.customers, public.orders, public.order_items, public.service_requests from anon;
+revoke all privileges on table public.customers, public.orders, public.order_items, public.service_requests from authenticated;
+grant insert on table public.customers, public.orders, public.order_items, public.service_requests to anon;
+grant select, insert, update, delete on table public.customers, public.orders, public.order_items, public.service_requests to authenticated;
