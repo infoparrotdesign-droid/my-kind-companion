@@ -29,7 +29,7 @@ create or replace function private.record_parrot_order_status_change()
 returns trigger
 language plpgsql
 security definer
-set search_path = pg_catalog
+set search_path = pg_catalog, auth
 as $$
 declare
   v_changed_by text;
