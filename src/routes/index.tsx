@@ -230,7 +230,7 @@ function Index(){
      const whatsappUrl=WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n"));
      window.open(whatsappUrl,"_blank","noopener,noreferrer");
      if(!isService)setCart([]);
-     setSelectedService(null);setPanel(null);setToast("Pedido "+result.order_code+" preparado no WhatsApp.");
+     setSelectedService(null);setToast("Pedido "+result.order_code+" preparado no WhatsApp.");
      return {code:result.order_code,whatsappUrl};
    }catch(e){
      console.error("Order creation failed:",e);
