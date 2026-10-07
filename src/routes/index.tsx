@@ -203,30 +203,31 @@ function Index(){
  const productQuote=(p:Product)=>{const lines=["Interesse em produto Parrot","Produto: "+p.name,p.code?"Código: "+p.code:"","Categoria: "+p.category,"Preço: "+(p.price>0?money(p.price):"Sob consulta"),"Gostaria de receber informações sobre disponibilidade e condições de compra."].filter(Boolean);window.open(WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener,noreferrer")}; const qty=(id:string,d:number)=>setCart(c=>c.map(i=>{if(i.productId!==id)return i;const p=products.find(x=>x.id===id);return {...i,quantity:Math.min(p?.stock??999,i.quantity+d)}}).filter(i=>i.quantity>0));
  const makeOrderCode=()=>{const d=new Date(),stamp=d.getFullYear().toString()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0"),random=crypto.randomUUID().replaceAll("-","").slice(0,6).toUpperCase();return "PRT-"+stamp+"-"+random};
  const submitOrder=async(name:string,phone:string,email:string,address:string,reference:string,notes:string,serviceDetails:Record<string,string>)=>{
-   const orderId=crypto.randomUUID(),orderCode=makeOrderCode(),isService=Boolean(selectedService),cleanServiceDetails=compactRecord(serviceDetails);
+   const isService=Boolean(selectedService),cleanServiceDetails=compactRecord(serviceDetails);
    const productSummary=details.map(i=>i.product.name+" | Código: "+(i.product.code||"—")+" | Qtd.: "+i.quantity+" | Unit.: "+money(i.product.price)+" | Subtotal: "+money(i.subtotal)).join("\n");
-   const orderNotes=[notes,isService?"":(productSummary?"Produtos do carrinho:\n"+productSummary:"")].filter(Boolean).join("\n\n");
    try{
-     const {error:orderError}=await supabase.from("orders").insert({
-       id:orderId,order_code:orderCode,customer_id:null,order_type:isService?"service":"product",status:"new",
-       total:isService?0:total,customer_name:name,customer_phone:phone,customer_email:email||null,
-       delivery_address:address,delivery_reference:reference||null,service_type:isService?selectedService.type:null,
-       service_title:isService?selectedService.title:null,service_description:isService?(selectedService.description||null):null,
-       notes:orderNotes||null,source:"website"
+     if(isService&&!selectedService)throw new Error("Serviço não selecionado.");
+     const {data,error}=await supabase.rpc("create_public_order",{
+       p_order:{
+         order_type:isService?"service":"product",
+         customer_name:name,
+         customer_phone:phone,
+         customer_email:email||null,
+         delivery_address:address,
+         delivery_reference:reference||null,
+         notes:notes||null
+       },
+       p_items:isService?[]:details.map(i=>({product_id:i.product.id,quantity:i.quantity})),
+       p_service:isService?{service_type:selectedService.type,service_details:cleanServiceDetails}:{}
      });
-     if(orderError)throw orderError;
-     let warning="";
-     if(isService){
-       const {error}=await supabase.from("service_requests").insert({order_id:orderId,service_type:selectedService.type,service_title:selectedService.title,service_description:selectedService.description||null,requested_details:{customer:{name,phone,email,address,reference},service:cleanServiceDetails}});
-       if(error){console.error("Service request detail save failed:",error);warning=" O registo complementar do serviço não foi guardado, mas o pedido principal foi criado."}
-     }else if(details.length){
-       const {error}=await supabase.from("order_items").insert(details.map(i=>({order_id:orderId,product_id:i.product.id,product_name:i.product.name,product_code:i.product.code||null,quantity:i.quantity,unit_price:i.product.price,subtotal:i.subtotal})));
-       if(error){console.error("Order items save failed:",error);warning=" O detalhe dos produtos não foi guardado, mas o pedido principal foi criado."}
-     }
-     const lines=["Pedido Parrot","Pedido: "+orderCode,isService?"Tipo: Serviço":"Tipo: Produtos","Cliente: "+name,"Telefone: "+phone,email?"Email: "+email:"","Local de entrega / endereço: "+address,reference?"Ponto de referência: "+reference:"",isService?"Serviço solicitado: "+selectedService.title:"Produtos:",isService?(selectedService.description?"Descrição: "+selectedService.description:""):productSummary,isService&&Object.entries(cleanServiceDetails).length?"Detalhes do serviço:\n"+Object.entries(cleanServiceDetails).map(([key,value])=>getServiceDetailLabel(selectedService.type,key)+": "+value).join("\\n"):"",!isService?"Total dos produtos: "+money(total):"Pedido sujeito a orçamento",notes?"Observações: "+notes:""].filter(Boolean);
+     if(error)throw error;
+     const result=data&&typeof data==="object"&&!Array.isArray(data)?data as {order_id:string;order_code:string;total:number}:null;
+     if(!result?.order_code)throw new Error("O pedido foi processado, mas não recebemos o código do pedido.");
+     const savedTotal=typeof result.total==="number"?result.total:total;
+     const lines=["Pedido Parrot","Pedido: "+result.order_code,isService?"Tipo: Serviço":"Tipo: Produtos","Cliente: "+name,"Telefone: "+phone,email?"Email: "+email:"","Local de entrega / endereço: "+address,reference?"Ponto de referência: "+reference:"",isService?"Serviço solicitado: "+selectedService.title:"Produtos:",isService?(selectedService.description?"Descrição: "+selectedService.description:""):productSummary,isService&&Object.entries(cleanServiceDetails).length?"Detalhes do serviço:\n"+Object.entries(cleanServiceDetails).map(([key,value])=>getServiceDetailLabel(selectedService.type,key)+": "+value).join("\\n"):"",!isService?"Total dos produtos: "+money(savedTotal):"Pedido sujeito a orçamento",notes?"Observações: "+notes:""].filter(Boolean);
      window.open(WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener,noreferrer");
      if(!isService)setCart([]);
-     setSelectedService(null);setPanel(null);setToast("Pedido "+orderCode+" preparado no WhatsApp."+warning);
+     setSelectedService(null);setPanel(null);setToast("Pedido "+result.order_code+" preparado no WhatsApp.");
    }catch(e){
      console.error("Order creation failed:",e);
      setToast(e instanceof Error?e.message:"Não foi possível criar o pedido. Tente novamente.");
