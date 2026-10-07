@@ -19,6 +19,11 @@ create table if not exists public.orders (
   order_type text not null check (order_type in ('product','service')),
   status text not null default 'new' check (status in ('new','in_review','quote_sent','awaiting_payment','in_production','ready','delivered','cancelled')),
   total numeric(12,2) not null default 0 check (total >= 0),
+  customer_name text,
+  customer_phone text,
+  customer_email text,
+  delivery_address text,
+  delivery_reference text,
   service_type text,
   service_title text,
   service_description text,
@@ -100,6 +105,12 @@ with check (
   and status = 'new'
   and total >= 0
   and source = 'website'
+  and customer_name is not null
+  and char_length(trim(customer_name)) between 2 and 150
+  and customer_phone is not null
+  and char_length(trim(customer_phone)) between 5 and 30
+  and delivery_address is not null
+  and char_length(trim(delivery_address)) between 3 and 250
 );
 
 drop policy if exists "Admin can read Parrot orders" on public.orders;
