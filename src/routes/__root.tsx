@@ -78,14 +78,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Parrot — Design Gráfico e Soluções Criativas" },
+      { name: "description", content: "Parrot — Design Gráfico, impressão, personalização e soluções criativas para empresas, empreendedores e eventos em Vilankulo, Inhambane e Moçambique." },
+      { name: "author", content: "Parrot" },
+      { property: "og:title", content: "Parrot — Design Gráfico e Soluções Criativas" },
+      { property: "og:description", content: "Design gráfico, impressão, personalização e soluções criativas para marcas e negócios." },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "pt_MZ" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@ParrotDesign" },
     ],
     links: [
       {
@@ -103,7 +104,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-MZ">
       <head>
         <HeadContent />
       </head>
