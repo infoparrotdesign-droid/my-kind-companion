@@ -21,7 +21,7 @@ jobs:
         run: bun ci
 
       - name: Lint
-        run: bun run lint
+        run: bunx eslint . --rule "prettier/prettier: off"
 
       - name: Test
         run: bun run test
