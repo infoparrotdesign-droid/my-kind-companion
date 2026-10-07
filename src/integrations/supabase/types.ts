@@ -188,6 +188,7 @@ export type Database = {
       }
       orders: {
         Row: {
+          amount_paid: number
           created_at: string
           customer_email: string | null
           customer_id: string | null
@@ -195,10 +196,15 @@ export type Database = {
           customer_phone: string | null
           delivery_address: string | null
           delivery_reference: string | null
+          financial_updated_at: string
           id: string
           notes: string | null
           order_code: string
           order_type: string
+          payment_method: string | null
+          payment_notes: string | null
+          payment_status: string
+          quoted_total: number | null
           service_description: string | null
           service_title: string | null
           service_type: string | null
@@ -209,6 +215,7 @@ export type Database = {
           whatsapp_sent_at: string | null
         }
         Insert: {
+          amount_paid?: number
           created_at?: string
           customer_email?: string | null
           customer_id?: string | null
@@ -216,10 +223,15 @@ export type Database = {
           customer_phone?: string | null
           delivery_address?: string | null
           delivery_reference?: string | null
+          financial_updated_at?: string
           id?: string
           notes?: string | null
           order_code: string
           order_type: string
+          payment_method?: string | null
+          payment_notes?: string | null
+          payment_status?: string
+          quoted_total?: number | null
           service_description?: string | null
           service_title?: string | null
           service_type?: string | null
@@ -230,6 +242,7 @@ export type Database = {
           whatsapp_sent_at?: string | null
         }
         Update: {
+          amount_paid?: number
           created_at?: string
           customer_email?: string | null
           customer_id?: string | null
@@ -237,10 +250,15 @@ export type Database = {
           customer_phone?: string | null
           delivery_address?: string | null
           delivery_reference?: string | null
+          financial_updated_at?: string
           id?: string
           notes?: string | null
           order_code?: string
           order_type?: string
+          payment_method?: string | null
+          payment_notes?: string | null
+          payment_status?: string
+          quoted_total?: number | null
           service_description?: string | null
           service_title?: string | null
           service_type?: string | null
