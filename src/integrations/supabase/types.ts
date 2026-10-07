@@ -14,47 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
-      products: {
+      brand_assets: {
         Row: {
-          available: boolean
-          category: string
-          code: string
-          created_at: string
-          description: string
-          id: string
-          image: string | null
-          name: string
-          price: number
-          stock: number
+          image_url: string | null
+          type: string
           updated_at: string
         }
         Insert: {
-          available?: boolean
-          category?: string
-          code?: string
-          created_at?: string
-          description?: string
-          id?: string
-          image?: string | null
-          name: string
-          price?: number
-          stock?: number
+          image_url?: string | null
+          type: string
           updated_at?: string
         }
         Update: {
-          available?: boolean
-          category?: string
-          code?: string
-          created_at?: string
-          description?: string
-          id?: string
-          image?: string | null
-          name?: string
-          price?: number
-          stock?: number
+          image_url?: string | null
+          type?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      customer_interactions: {
+        Row: {
+          created_at: string
+          customer_id: string
+          happened_at: string
+          id: string
+          interaction_type: string
+          note: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          happened_at?: string
+          id?: string
+          interaction_type: string
+          note: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          happened_at?: string
+          id?: string
+          interaction_type?: string
+          note?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_interactions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customers: {
+        Row: {
+          address: string
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string
+          reference: string | null
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone: string
+          reference?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string
+          reference?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_code: string | null
+          product_id: string | null
+          product_name: string
+          quantity: number
+          subtotal: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_code?: string | null
+          product_id?: string | null
+          product_name: string
+          quantity: number
+          subtotal: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_code?: string | null
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          subtotal?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order_status_history: {
         Row: {
@@ -81,13 +176,226 @@ export type Database = {
           order_id?: string
           to_status?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "order_status_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string | null
+          customer_id: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          delivery_address: string | null
+          delivery_reference: string | null
+          id: string
+          notes: string | null
+          order_code: string
+          order_type: string
+          service_description: string | null
+          service_title: string | null
+          service_type: string | null
+          source: string
+          status: string
+          total: number
+          updated_at: string
+          whatsapp_sent_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          delivery_address?: string | null
+          delivery_reference?: string | null
+          id?: string
+          notes?: string | null
+          order_code: string
+          order_type: string
+          service_description?: string | null
+          service_title?: string | null
+          service_type?: string | null
+          source?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          whatsapp_sent_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          delivery_address?: string | null
+          delivery_reference?: string | null
+          id?: string
+          notes?: string | null
+          order_code?: string
+          order_type?: string
+          service_description?: string | null
+          service_title?: string | null
+          service_type?: string | null
+          source?: string
+          status?: string
+          total?: number
+          updated_at?: string
+          whatsapp_sent_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portfolio_projects: {
+        Row: {
+          category: string
+          client: string | null
+          created_at: string
+          description: string
+          featured: boolean
+          id: string
+          image: string | null
+          project_year: number | null
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          client?: string | null
+          created_at?: string
+          description?: string
+          featured?: boolean
+          id?: string
+          image?: string | null
+          project_year?: number | null
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          client?: string | null
+          created_at?: string
+          description?: string
+          featured?: boolean
+          id?: string
+          image?: string | null
+          project_year?: number | null
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
         Relationships: []
+      }
+      products: {
+        Row: {
+          available: boolean
+          category: string
+          code: string
+          created_at: string
+          description: string
+          id: string
+          image: string | null
+          name: string
+          price: number
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          available?: boolean
+          category: string
+          code?: string
+          created_at?: string
+          description?: string
+          id: string
+          image?: string | null
+          name: string
+          price?: number
+          stock?: number
+          updated_at?: string
+        }
+        Update: {
+          available?: boolean
+          category?: string
+          code?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image?: string | null
+          name?: string
+          price?: number
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      service_requests: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          requested_details: Json
+          service_description: string | null
+          service_title: string
+          service_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          requested_details?: Json
+          service_description?: string | null
+          service_title: string
+          service_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          requested_details?: Json
+          service_description?: string | null
+          service_title?: string
+          service_type?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_requests_service_type_fkey"
+            columns: ["service_type"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["type"]
+          },
+        ]
       }
       services: {
         Row: {
           created_at: string
           description: string
-          id: string
           image: string | null
           title: string
           type: string
@@ -96,7 +404,6 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string
-          id?: string
           image?: string | null
           title: string
           type: string
@@ -105,7 +412,6 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string
-          id?: string
           image?: string | null
           title?: string
           type?: string
@@ -119,11 +425,7 @@ export type Database = {
     }
     Functions: {
       create_public_order: {
-        Args: {
-          p_items?: Json
-          p_order: Json
-          p_service?: Json
-        }
+        Args: { p_items?: Json; p_order: Json; p_service?: Json }
         Returns: Json
       }
     }
