@@ -226,9 +226,11 @@ function Index(){
      if(!result?.order_code)throw new Error("O pedido foi processado, mas não recebemos o código do pedido.");
      const savedTotal=typeof result.total==="number"?result.total:total;
      const serviceDetailLines=isService&&selectedService?Object.entries(cleanServiceDetails).map(([key,value])=>"• "+getServiceDetailLabel(selectedService.type,key)+": "+value):[];
-     const lines=["*PEDIDO PARROT*","Referência: *"+result.order_code+"*","Tipo: "+(isService?"Serviço":"Produtos"),"","*CLIENTE*","Nome: "+name,"WhatsApp: "+phone,email?"Email: "+email:"","", "*LOCAL DE ENTREGA*","Endereço: "+address,reference?"Referência: "+reference:"","", "*PEDIDO*",isService?"Serviço: "+selectedService.title:"Produtos:",isService&&selectedService.description?"Descrição: "+selectedService.description:"",...(!isService?productLines:[]),...(serviceDetailLines.length?["*DETALHES DO SERVIÇO*",...serviceDetailLines]:[]),isService?"Situação: Aguardando análise e orçamento":"Total: "+money(savedTotal),notes?"*OBSERVAÇÕES*\n"+notes:"","", "Mensagem enviada através do site da Parrot"].filter(Boolean);\n     window.open(WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener,noreferrer");
+     const lines=["*PEDIDO PARROT*","Referência: *"+result.order_code+"*","Tipo: "+(isService?"Serviço":"Produtos"),"","*CLIENTE*","Nome: "+name,"WhatsApp: "+phone,email?"Email: "+email:"","", "*LOCAL DE ENTREGA*","Endereço: "+address,reference?"Referência: "+reference:"","", "*PEDIDO*",isService?"Serviço: "+selectedService.title:"Produtos:",isService&&selectedService.description?"Descrição: "+selectedService.description:"",...(!isService?productLines:[]),...(serviceDetailLines.length?["*DETALHES DO SERVIÇO*",...serviceDetailLines]:[]),isService?"Situação: Aguardando análise e orçamento":"Total: "+money(savedTotal),notes?"*OBSERVAÇÕES*\n"+notes:"","", "Mensagem enviada através do site da Parrot"].filter(Boolean);
+     window.open(WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener,noreferrer");
      if(!isService)setCart([]);
-     setSelectedService(null);setPanel(null);setToast("Pedido "+result.order_code+" preparado no WhatsApp.");\n     return result.order_code;
+     setSelectedService(null);setPanel(null);setToast("Pedido "+result.order_code+" preparado no WhatsApp.");
+     return result.order_code;
    }catch(e){
      console.error("Order creation failed:",e);
      setToast(e instanceof Error?e.message:"Não foi possível criar o pedido. Tente novamente.");
