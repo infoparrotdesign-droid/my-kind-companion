@@ -86,8 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_MZ" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@ParrotDesign" },
-    ],
+          ],
     links: [
       {
         rel: "stylesheet",
