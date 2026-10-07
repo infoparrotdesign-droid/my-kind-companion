@@ -205,7 +205,7 @@ function Index(){
  const productQuote=(p:Product)=>{const lines=["Interesse em produto Parrot","Produto: "+p.name,p.code?"Código: "+p.code:"","Categoria: "+p.category,"Preço: "+(p.price>0?money(p.price):"Sob consulta"),"Gostaria de receber informações sobre disponibilidade e condições de compra."].filter(Boolean);window.open(WHATSAPP_ORDER_LINK+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener,noreferrer")}; const qty=(id:string,d:number)=>setCart(c=>c.map(i=>{if(i.productId!==id)return i;const p=products.find(x=>x.id===id);return {...i,quantity:Math.min(p?.stock??999,i.quantity+d)}}).filter(i=>i.quantity>0));
  const submitOrder=async(name:string,phone:string,email:string,address:string,reference:string,notes:string,serviceDetails:Record<string,string>)=>{
    const isService=Boolean(selectedService),cleanServiceDetails=compactRecord(serviceDetails);
-   const productSummary=details.map(i=>i.product.name+" | Código: "+(i.product.code||"—")+" | Qtd.: "+i.quantity+" | Unit.: "+money(i.product.price)+" | Subtotal: "+money(i.subtotal)).join("\n");
+   const productLines=details.map(i=>"• "+i.product.name+" — Qtd.: "+i.quantity+" · Unit.: "+money(i.product.price)+" · Subtotal: "+money(i.subtotal));
    try{
      if(isService&&!selectedService)throw new Error("Serviço não selecionado.");
      const {data,error}=await supabase.rpc("create_public_order",{
