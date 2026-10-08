@@ -12,4 +12,5 @@ type Category = "Papelaria" | "Informática";
 type Product = { id:string; name:string; category:Category; description:string; price:number; code:string; stock:number; available:boolean; image?:string };
 type Service = { id?:string; type:string; title:string; description:string; image?:string|null; created_at?:string; updated_at?:string };
 type PortfolioPreview = { t:string; c:string; tone:string; image?:string|null; description?:string; client?:string|null; year?:number|null };
-type PortfolioProject = { id:string; title:string; category:string; description:string; image?:string|null; client?:string|null; project_year?:number|null; featured:boolean; sort_order:number; created_at?:string; updated_at?:string };\ntype CustomerReview = { id:string; customer_name:string; company?:string|null; rating:number; comment:string; approved:boolean; created_at:string; updated_at:string };
+type PortfolioProject = { id:string; title:string; category:string; description:string; image?:string|null; client?:string|null; project_year?:number|null; featured:boolean; sort_order:number; created_at?:string; updated_at?:string };
+type CustomerReview = { id:string; customer_name:string; company?:string|null; rating:number; comment:string; approved:boolean; created_at:string; updated_at:string };
