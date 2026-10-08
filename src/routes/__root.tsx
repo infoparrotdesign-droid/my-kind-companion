@@ -125,3 +125,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
+/* Lovable sync: SEO, admin notifications and printable order sheet are intentionally kept in the active build. */
