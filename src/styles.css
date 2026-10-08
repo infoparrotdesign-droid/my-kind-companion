@@ -251,3 +251,10 @@
  .portfolio-detail-meta{grid-template-columns:1fr}
  .portfolio-detail-cta{width:100%}
 }
+
+/* Header spacing refinement */
+.site-header{gap:42px}
+.site-header .brand{flex:none}
+.site-header .main-nav{margin-left:auto;gap:24px}
+@media(max-width:1050px){.site-header{gap:30px}.site-header .main-nav{gap:18px}}
+@media(max-width:760px){.site-header{gap:18px}.site-header .main-nav{margin-left:0}}
