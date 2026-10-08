@@ -8,10 +8,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 // Public (publishable) backend values. Baked in as a fallback so published builds
 // work even when the .env file is not present in the build environment.
-const SUPABASE_URL = process.env['VITE_SUPABASE_URL'] || "https://agpxxmyypbnxnajdwmws.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  process.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || "sb_publishable_87OiyND52hQkmb9rfTzslw_keDirei4";
-const SUPABASE_PROJECT_ID = process.env['VITE_SUPABASE_PROJECT_ID'] || "agpxxmyypbnxnajdwmws";
+// Canonical Parrot Supabase project. The public client must not silently drift
+// to an old Lovable/preview environment when runtime variables are stale.
+const SUPABASE_URL = "https://agpxxmyypbnxnajdwmws.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_87OiyND52hQkmb9rfTzslw_keDirei4";
+const SUPABASE_PROJECT_ID = "agpxxmyypbnxnajdwmws";
 
 export default defineConfig({
   tanstackStart: {
