@@ -44,9 +44,10 @@ export const Route = createFileRoute("/api/ai/generate-description")({
           const accessToken = authorization.replace(/^Bearer\s+/i, "").trim();
           if (!accessToken) return json({ error: "Sessão administrativa necessária." }, 401);
 
-          const supabaseUrl = process.env['VITE_SUPABASE_URL'] || SUPABASE_URL;
-          const supabaseKey =
-            process.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || SUPABASE_PUBLISHABLE_KEY;
+          // This route only needs the public Supabase client for token verification.
+          // Keep it on the same canonical project as the browser client.
+          const supabaseUrl = SUPABASE_URL;
+          const supabaseKey = SUPABASE_PUBLISHABLE_KEY;
           const supabase = createClient(supabaseUrl, supabaseKey, {
             auth: { persistSession: false, autoRefreshToken: false },
           });
