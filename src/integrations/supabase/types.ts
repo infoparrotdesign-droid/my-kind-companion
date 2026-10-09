@@ -58,6 +58,7 @@ export type Database = {
       }
       services: {
         Row: {
+          code: string
           created_at: string
           description: string
           id: string
@@ -67,6 +68,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          code?: string
           created_at?: string
           description?: string
           id?: string
@@ -76,6 +78,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          code?: string
           created_at?: string
           description?: string
           id?: string
