@@ -323,3 +323,7 @@
   font-weight:700;
   letter-spacing:-.04em;
 }
+
+
+/* Admin-only reference code for catalog services */
+.service-code{display:block;margin-top:7px;color:var(--orange);font-size:10px;font-weight:800;letter-spacing:.04em}
