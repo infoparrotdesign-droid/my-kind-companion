@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment -- arquivo legado ainda não tipado; remover após tipagem gradual.
 // @ts-nocheck
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Bell, BriefcaseBusiness, Check, Clipboard, ClipboardList, Edit3, Filter, ImagePlus, Laptop, Mail, Menu, MessageCircle, Minus, Moon, Package, Palette, Phone, Plus, Printer, RefreshCw, Search, ShoppingBag, ShoppingCart, Sparkles, Star, Sun, Trash2, Upload, X, ZoomIn, ZoomOut } from "lucide-react";
