@@ -401,7 +401,7 @@ function SecureImage({ src, alt, className }: { src?: string | null; alt: string
     void load();
     return () => { active = false; if (refreshTimer !== undefined) window.clearTimeout(refreshTimer); };
   }, [src]);
-  return <SecureImage src={resolvedSrc} alt={alt} className={className}/>;
+  return <img src={resolvedSrc} alt={alt} className={className}/>;
 }
 
 async function uploadImage(dataUrl:string,folder:string){await requireAdminSession();const response=await fetch(dataUrl);const blob=await response.blob();const ext=blob.type==="image/png"?"png":blob.type==="image/webp"?"webp":blob.type==="image/gif"?"gif":blob.type==="image/svg+xml"?"svg":"jpg";const contentType=blob.type||"image/jpeg";const path=folder+"/"+crypto.randomUUID()+"."+ext;const {error}=await supabase.storage.from(IMAGE_BUCKET).upload(path,blob,{contentType,cacheControl:"31536000",upsert:false});if(error)throw error;return path}
