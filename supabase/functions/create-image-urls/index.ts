@@ -40,7 +40,7 @@ Deno.serve(async (req: Request) => {
     // is restricted to the Parrot administrator's authenticated session.
     if (payload?.action === "purge-cache") {
       const authorization = req.headers.get("authorization") ?? "";
-      const accessToken = authorization.replace(/^Bearer\s+/i, "");
+      const accessToken = authorization.startsWith("Bearer ") ? authorization.slice(7) : "";
       if (!accessToken) return json({ error: "Sessão administrativa necessária." }, 401);
       const { data: authData, error: authError } = await adminClient.auth.getUser(accessToken);
       if (authError || authData.user?.email?.toLowerCase() !== "info.parrotdesign@gmail.com") {
@@ -64,7 +64,7 @@ Deno.serve(async (req: Request) => {
       typeof path !== "string" ||
       path.length > 500 ||
       path.startsWith("/") ||
-      path.includes("\\") ||
+      path.includes(String.fromCharCode(92)) ||
       path.split("/").some((part: string) => part === "." || part === "..") ||
       !ALLOWED_PREFIXES.some((prefix) => path.startsWith(prefix))
     )) {
