@@ -9,6 +9,8 @@ const corsHeaders = {
 };
 
 const BUCKET = "parrot-images";
+// This is the same public project key used by the browser client; it is not a secret.
+const EXPECTED_PUBLIC_KEY = "sb_publishable_87OiyND52hQkmb9rfTzslw_keDirei4";
 const ALLOWED_PREFIXES = ["products/", "services/", "portfolio/", "brand/"];
 const TTL_SECONDS = 60 * 60;
 
@@ -19,6 +21,7 @@ function json(body: unknown, status = 200) {
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+  if (req.headers.get("apikey") !== EXPECTED_PUBLIC_KEY) return json({ error: "Unauthorized" }, 401);
 
   try {
     const payload = await req.json().catch(() => null);
